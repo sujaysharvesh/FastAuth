@@ -1,0 +1,33 @@
+# Virtual environment
+env
+.env
+__pycache__/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Logs and cache
+logs/
+*.log
+*.sqlite3
+db.sqlite3
+migrations/
+
+# Static & media files (if applicable)
+staticfiles/
+media/
+
+# IDE & OS-specific files
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Docker-related (if using Docker)
+*.dockerfile
+docker-compose.override.yml
+
+# Ignore Git-related files
+.git/
