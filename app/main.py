@@ -50,7 +50,3 @@ async def Home():
     return JSONResponse("Hello word")
 
 app.include_router(Auth_Router, prefix="/v1")
-
-if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8001))
-    uvicorn.run(app, host="0.0.0.0", port=port)
