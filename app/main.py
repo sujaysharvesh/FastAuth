@@ -6,6 +6,8 @@ from app.Auth.dependency import zitadel_auth
 from app.Config import Config
 from app.Auth.router import Auth_Router
 from app.middleware import register_middleware
+import os
+import uvicorn
 import secrets
 
 
@@ -40,8 +42,7 @@ app.add_middleware(
     session_cookie="sessionid",
     max_age=3600,  # Ensure session persists (1 hour)
     https_only=True,  # Set to True in production (HTTPS required)
-    same_site="True"  # Used when `secure=True` in production
-)
+    same_site="lax"  )
 
 
 @app.get("/")
@@ -49,3 +50,7 @@ async def Home():
     return JSONResponse("Hello word")
 
 app.include_router(Auth_Router, prefix="/v1")
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8001))
+    uvicorn.run(app, host="0.0.0.0", port=port)

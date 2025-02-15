@@ -10,6 +10,7 @@ class Setting(BaseSettings):
     ZITADEL_AUTH_URL: str
     ZITADEL_USERINFO_URL: str
     POST_LOGIN_REDIRECT_URI: str
+    PORT: int
     
     
     class Config:
