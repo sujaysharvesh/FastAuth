@@ -48,4 +48,4 @@ app.add_middleware(
 async def Home():
     return JSONResponse("Hello word")
 
-app.include_router(Auth_Router, prefix="/api")
+app.include_router(Auth_Router, prefix="/v1")
