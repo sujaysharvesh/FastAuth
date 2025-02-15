@@ -1,3 +1,4 @@
 . _pycache_
 .env
 .aider*
+.aider.chat.history.md

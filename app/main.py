@@ -1,10 +1,13 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from starlette.middleware.sessions import SessionMiddleware
 from contextlib import asynccontextmanager
 from app.Auth.dependency import zitadel_auth
 from app.Config import Config
 from app.Auth.router import Auth_Router
 from app.middleware import register_middleware
+import secrets
+
 
 @asynccontextmanager
 async def lifeSpan(app: FastAPI):
@@ -30,7 +33,16 @@ app = FastAPI(
     },
 )
 
-register_middleware(app)
+#register_middleware(app)
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=Config.SESSION_SECRET_KEY,
+    session_cookie="sessionid",
+    max_age=3600,  # Ensure session persists (1 hour)
+    https_only=False,  # Set to True in production (HTTPS required)
+    same_site="lax"  # Used when `secure=True` in production
+)
+
 
 @app.get("/")
 async def Home():
