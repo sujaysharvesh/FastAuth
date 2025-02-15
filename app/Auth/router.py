@@ -29,7 +29,7 @@ async def callback(request: Request):
         if not token_response or "access_token" not in token_response:
             raise HTTPException(status_code=400, detail="Invalid token response from Zitadel")
         # Prepare the response
-        response = RedirectResponse(url="/api/current-user")
+        response = RedirectResponse(url="/v1/current-user")
         
         # Set access token in a secure cookie
         response.set_cookie(
@@ -109,7 +109,7 @@ async def get_current_user(request: Request):
 
     # Check if request was successful
     if response.status_code != 200:
-        return RedirectResponse(url="/api/login") 
+        return RedirectResponse(url="/v1/login") 
 
     return JSONResponse(content=response.json())
 
