@@ -39,8 +39,8 @@ app.add_middleware(
     secret_key=Config.SESSION_SECRET_KEY,
     session_cookie="sessionid",
     max_age=3600,  # Ensure session persists (1 hour)
-    https_only=False,  # Set to True in production (HTTPS required)
-    same_site="lax"  # Used when `secure=True` in production
+    https_only=True,  # Set to True in production (HTTPS required)
+    same_site="True"  # Used when `secure=True` in production
 )
 
 
