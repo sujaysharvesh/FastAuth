@@ -2,6 +2,8 @@ from fastapi import Depends, Request, Response, APIRouter, HTTPException, Securi
 from fastapi.responses import JSONResponse, RedirectResponse
 from app.Auth.dependency import Validate_is_admin_user, zitadel_auth, _extract_access_token, validate_scope
 from app.Config import Config
+from urllib.parse import urlencode
+import secrets
 import pkce
 import httpx
 import logging
@@ -73,6 +75,30 @@ async def login_redirect(request: Request):
         f"&code_challenge_method=S256"
     )
     return RedirectResponse(url=zitadel_auth_url)
+
+
+@Auth_Router.get("/register")
+async def register(request: Request):
+    """
+    Endpoint to initiate registration process and redirect to Zitadel
+    """
+    # Generate state parameter for CSRF protection
+    state = secrets.token_urlsafe(16)
+    request.session["oauth_state"] = state
+    
+    # Construct registration URL
+    params = {
+        "client_id": Config.CLIENT_ID,
+        "redirect_uri": Config.PRE_LOGIN_REDIRECT_URI,
+        "response_type": "code",
+        "scope": "openid profile email",
+        "state": state
+    }
+    
+    registration_url = f"{Config.ZITADEL_HTTP_URL}/ui/login/register?{urlencode(params)}"
+    return RedirectResponse(url=registration_url)
+
+
 
 @Auth_Router.get("/logout")
 async def logout_user(request: Request, response: Response):
